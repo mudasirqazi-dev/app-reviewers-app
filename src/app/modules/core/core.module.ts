@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import { ApiService } from './services';
+import { ApiService, BitApiService } from './services';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -45,6 +45,6 @@ const plugins = [
         appModules],
     exports: [materialModules, plugins,
         appModules],
-    providers: [ApiService]
+    providers: [ApiService,BitApiService]
 })
 export class CoreModule { }

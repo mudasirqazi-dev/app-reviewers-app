@@ -4,6 +4,7 @@
 </app-header>
 <div class="container">
   <div class="profile_detail">
+
     <div class="users_profile">
       <div class="left_Side">
         <div class="box">
@@ -39,19 +40,20 @@
             <hr>
           </div>
         </div>
-        <!-- class="primarybtn" -->
       </div>
       <div class="right_Side" *ngIf="account">
         <div class="box">
           <h4><b>Current Balance:</b><span>{{account?.balance | currency }}</span></h4>
           <div class="btns">
-            <form method="POST" action="https://btcpay.prefex.cc/apps/Tz5ArEWtWYMkQb5umw6P4ZoF8gS/pos">
-              <input type="hidden" name="email" value="customer@example.com" />
-              <input type="hidden" name="orderId" value="CustomOrderId" />
-              <input type="hidden" name="notificationUrl" value="https://app-reviewers-api.vercel.app/api/account/test" />
+            <form #form method="POST" action="https://btcpay.prefex.cc/apps/Tz5ArEWtWYMkQb5umw6P4ZoF8gS/pos">
+              <input type="hidden" name="amount" value="50" />
+              <input type="hidden" name="email" [(ngModel)]="user.email" />
+              <input type="hidden" name="orderId" [(ngModel)]="purchaseId" />
+              <input type="hidden" name="notificationUrl"
+                value="https://app-reviewers-api.vercel.app/api/account/test" />
               <input type="hidden" name="redirectUrl" value="https://app-reviewers-app.vercel.app/home/profile" />
-              <button type="submit" name="choiceKey" value="test credit">Buy now</button>
             </form>
+            <button type="button" class="primarybtn " (click)="form.submit()">Purchase</button>
           </div>
         </div>
       </div>
