@@ -1,0 +1,51 @@
+<!-- <nav>
+  <input type="checkbox" id="check">
+  <label for="check" class="checkbtn">
+    <i class="fas fa-bars"></i>
+  </label>
+  <label class="logo">DesignX</label>
+  <ul>
+    <li><a class="active" href="#">Home</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Services</a></li>
+    <li><a href="#">Contact</a></li>
+    <li><a href="#">Feedback</a></li>
+  </ul>
+</nav> -->
+<header id="header">
+  <div class="container">
+    <div class="landing">
+      <mat-toolbar class="header_toolbar">
+        <mat-toolbar-row>
+
+          <div class="logoimg">
+            <a [routerLink]="['/']">Logo</a>
+          </div>
+
+
+          <section class="header_links ml-5">
+
+            <div class="example-button-row">
+
+              <a mat-button [routerLink]="['/']" routerLinkActive="router-link-active">Home</a>
+              <a mat-button [routerLink]="['/home/profile']" routerLinkActive="router-link-active">Profile</a>
+              <!-- <button mat-button [matMenuTriggerFor]="menu">Pages</button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item>Item 1</button>
+                <button mat-menu-item>Item 2</button>
+              </mat-menu> -->
+              <!-- <a mat-button href="javascript:void(0)">Contact</a> -->
+            </div>
+          </section>
+          <div class="site-nav-actions">
+            <!-- <button mat-raised-button class="secondarybtn" [routerLink]="['/user/login']">Sign in</button> -->
+            <button mat-raised-button class="primarybtn" [routerLink]="['/user/login']">LogOut</button>
+          </div>
+
+        </mat-toolbar-row>
+
+
+      </mat-toolbar>
+    </div>
+  </div>
+</header>

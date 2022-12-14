@@ -1,0 +1,90 @@
+<div id="wrapper">
+  <app-header></app-header>
+  <app-sidebar></app-sidebar>
+  <div id="main-content">
+    <div class="container-fluid">
+      <div class="block-header">
+        <div class="row clearfix">
+          <div class="col-md-3 col-sm-12">
+            <h1>Dashboard</h1>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">svl</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+              </ol>
+            </nav>
+          </div>
+          <!-- <div class="col-md-9 col-sm-12 text-right date-filter">
+                        <label class="mt-2 mr-4">Choose Date to Show Below Stats</label>
+                        <input type=" text" ngxDaterangepickerMd [(ngModel)]="selected" [closeOnAutoApply]="true"
+                            [showCustomRangeLabel]="true" class="form-control" [alwaysShowCalendars]="true"
+                            [ranges]="ranges" [linkedCalendars]="true" position="center"
+                            (datesUpdated)="datesUpdated($event)" [isInvalidDate]="isInvalidDate"
+                            [showClearButton]="true" placeholder="Filter Dates "
+                            [locale]="{applyLabel: 'ok', format: 'DD-MM-YYYY'}">
+
+                    </div> -->
+        </div>
+      </div>
+      <div class="row clearfix">
+        <div class="col-lg-3 col-md-6">
+          <div class="card">
+            <div class="body bg-info text-light">
+              <div class="d-flex align-items-center">
+                <div class="card-value text-muted"><i class="icon-calculator text-light"></i></div>
+                <div class="ml-3">
+                  <span>Total Cappers</span>
+                  <h4 class="mb-0 font-weight-medium">{{totalCappers }}</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="card">
+            <div class="body bg-success text-light">
+              <div class="d-flex align-items-center">
+                <div class="card-value text-muted"><i class="icon-badge text-light"></i></div>
+                <div class="ml-3">
+                  <span>Total Subscribers</span>
+                  <h4 class="mb-0 font-weight-medium">{{totalSubscribers}}</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="card">
+            <div class="body bg-warning text-light">
+              <div class="d-flex align-items-center">
+                <div class="card-value text-muted"><i class="icon-wallet text-light"></i>
+                </div>
+                <div class="ml-3">
+                  <span>Active Videos</span>
+                  <h4 class="mb-0 font-weight-medium">{{activeVideos | number}}</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="card">
+            <div class="body bg-danger text-light">
+              <div class="d-flex align-items-center">
+                <div class="card-value text-muted"><i class="icon-bell text-light"></i></div>
+                <div class="ml-3">
+                  <span>pending Approvel Videos</span>
+                  <h4 class="mb-0 font-weight-medium">{{pendingApprovel}}</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr class="my-4">
+
+
+
+    </div>
+  </div>
+</div>

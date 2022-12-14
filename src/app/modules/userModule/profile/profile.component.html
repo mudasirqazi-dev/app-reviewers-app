@@ -1,0 +1,62 @@
+<app-header>
+
+
+</app-header>
+<div class="container">
+  <div class="profile_detail">
+    <div class="users_profile">
+      <div class="left_Side">
+        <div class="box">
+          <div class="inf_box" *ngIf="user">
+            <div class="information">
+              <h4>First Name</h4>
+              <h4>{{user.firstName}}</h4>
+
+
+            </div>
+            <hr>
+            <div class="information">
+              <h4>Last Name</h4>
+              <h4>{{user.lastName}}</h4>
+
+
+            </div>
+            <hr>
+            <div class="information">
+              <h4>Email</h4>
+              <h4>
+                {{user.email}}</h4>
+
+
+            </div>
+            <hr>
+            <div class="information">
+              <h4>Contact</h4>
+              <h4>{{user.contact}}</h4>
+
+
+            </div>
+            <hr>
+          </div>
+        </div>
+        <!-- class="primarybtn" -->
+      </div>
+      <div class="right_Side" *ngIf="account">
+        <div class="box">
+          <h4><b>Current Balance:</b><span>{{account?.balance | currency }}</span></h4>
+          <div class="btns">
+            <form method="POST" action="https://btcpay.prefex.cc/apps/Tz5ArEWtWYMkQb5umw6P4ZoF8gS/pos">
+              <input type="hidden" name="email" value="customer@example.com" />
+              <input type="hidden" name="orderId" value="CustomOrderId" />
+              <input type="hidden" name="notificationUrl" value="http://localhost:3000/api/account/test" />
+              <input type="hidden" name="redirectUrl" value="http://localhost:4200/home/profile" />
+              <button type="submit" name="choiceKey" value="buy for $20">Buy now</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<app-footer></app-footer>

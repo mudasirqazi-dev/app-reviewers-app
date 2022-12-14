@@ -1,0 +1,96 @@
+<div class="container">
+  <section class="login-box">
+    <div class="login-sub-box">
+      <h2 class="mat-title">Sign up</h2>
+      <form class="userform" (ngSubmit)="f.form.valid && registerUser()" #f="ngForm" novalidate>
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>First Name</mat-label>
+          <input type="text" matInput placeholder="Enter  first name" name="firstname" [(ngModel)]="user.firstName"
+            #fname="ngModel" [ngClass]="{ 'is-invalid': f.submitted && fname.invalid }" required>
+        </mat-form-field>
+        <div *ngIf="f.submitted && fname.invalid" class="invalid-feedback">
+          <mat-hint *ngIf="fname.errors.required">First Name is required
+          </mat-hint>
+        </div>
+
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>Last Name</mat-label>
+          <input type="text" matInput placeholder="enter last name" name="lastname" [(ngModel)]="user.lastName"
+            #lname="ngModel" [ngClass]="{ 'is-invalid': f.submitted && lname.invalid }" required>
+        </mat-form-field>
+        <div *ngIf="f.submitted && lname.invalid" class="invalid-feedback">
+          <mat-hint *ngIf="lname.errors.required">Last Name is required
+          </mat-hint>
+        </div>
+
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>Email</mat-label>
+          <input type="text" matInput placeholder="Enter your email" name="email" [(ngModel)]="user.email"
+            #email="ngModel" [ngClass]="{ 'is-invalid': f.submitted && email.invalid }" required>
+        </mat-form-field>
+        <div *ngIf="f.submitted && email.invalid" class="invalid-feedback">
+          <mat-hint *ngIf="email.errors.required">Email is required
+          </mat-hint>
+        </div>
+
+
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>Password</mat-label>
+          <input type="password" matInput placeholder="Enter your password" name="password" [(ngModel)]="user.password"
+            #password="ngModel" [ngClass]="{ 'is-invalid': f.submitted && password.invalid }" required>
+        </mat-form-field>
+        <div *ngIf="f.submitted && password.invalid" class="invalid-feedback">
+          <mat-hint *ngIf="password.errors.required">Password is required
+          </mat-hint>
+        </div>
+
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>Contact</mat-label>
+          <input type="text" matInput placeholder="Enter your contact" name="password" [(ngModel)]="user.contact"
+            #contact="ngModel" [ngClass]="{ 'is-invalid': f.submitted && contact.invalid }" required>
+        </mat-form-field>
+        <div *ngIf="f.submitted && contact.invalid" class="invalid-feedback">
+          <mat-hint *ngIf="contact.errors.required">Contact is required
+          </mat-hint>
+        </div>
+        <!-- <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>Last Name</mat-label>
+          <input type="text" matInput placeholder="enter a last name" formControlName="lname">
+          <mat-hint style="color: red;" *ngIf="lname && lname.invalid && lname.touched">last name is required</mat-hint>
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>Username</mat-label>
+          <input type="text" matInput placeholder="enter a username" formControlName="uname">
+          <mat-hint style="color: red;" *ngIf="uname && uname.invalid && uname.touched">user name is required</mat-hint>
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>Email</mat-label>
+          <input type="email" matInput placeholder=" enter a Email" formControlName="email">
+          <mat-hint style="color: red;" *ngIf="email && email.invalid && email.touched">email is required</mat-hint>
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>Password</mat-label>
+          <input type="password" matInput placeholder="enter a password" formControlName="password">
+          <mat-hint style="color: red;" *ngIf="password && password.invalid && password.touched">password is required
+          </mat-hint>
+        </mat-form-field> -->
+
+        <div class="actionbtns ">
+          <button mat-raised-button class="primarybtn" type="submit">Sign up</button>
+
+
+        </div>
+
+      </form>
+      <div class="signup-bottom-txt-box">
+        <p>Already have an account?</p>
+
+        <div class="actionbtns ">
+          <button mat-raised-button class="secondarybtn" [routerLink]="['/user/login']" type="submit">Sign in</button>
+
+
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
