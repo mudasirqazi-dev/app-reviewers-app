@@ -1,30 +1,32 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl,
+} from '@angular/forms';
 import { appService } from './../../shared/services/app.service';
+import { accountService } from './../../shared/services/account.service';
 import { UserInfoService } from './../../shared/auth/userInfoService';
 import { alert } from './../../shared/services/sweetAlert.service';
 declare var $: any;
 export interface PeriodicElement {
   username: string;
-
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  { username: 'aban', },
-
-];
+const ELEMENT_DATA: PeriodicElement[] = [{ username: 'aban' }];
 
 @Component({
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
 export class homeComponent implements OnInit {
-
   searchText: string;
-  entries: number = 10;
-  page: number = 1
+  entries: number = 30;
+  page: number = 1;
 
+  cost: number = 0.1;
   displayedColumns = ['username'];
   dataSource = ELEMENT_DATA;
   isData: boolean = false;
@@ -34,38 +36,45 @@ export class homeComponent implements OnInit {
     private router: Router,
     private appService: appService,
     private userInfoService: UserInfoService,
+    private accountService: accountService,
     private alert: alert
-
-  ) { }
+  ) {}
 
   ngOnInit() {
-
+    this.accountService.getCost().subscribe((res) => {
+      if (res.success) {
+        const t: any = res.data;
+        this.cost = t?.cost ? parseFloat(t.cost) : 0.1;
+      }
+    });
   }
 
   searchAppReviews() {
     let userId = this.userInfoService.getAuthData();
-    this.appService.searchAppReviews(userId, this.searchText).subscribe(res => {
-      this.dataSource = res;
-      this.allUsers = res;
-      if (res.length > 0) {
-        this.isData = true;
-      }
+    this.appService
+      .searchAppReviews(userId, this.searchText)
+      .subscribe((res) => {
+        this.dataSource = res;
+        this.allUsers = res;
+        if (res.length > 0) {
+          this.isData = true;
+        }
 
-      for (let i = 0; i < this.allUsers.length; i++) {
-        this.allUsers[i].contact = this.getReviewContact(this.allUsers[i]);
-      }
-    })
+        for (let i = 0; i < this.allUsers.length; i++) {
+          this.allUsers[i].contact = this.getReviewContact(this.allUsers[i]);
+        }
+      });
   }
-
 
   myReduce(o, fields, p, c) {
     // p: path
     // c: context (accumulator)
-    if (p === undefined) p = '', c = {};
+    if (p === undefined) (p = ''), (c = {});
     for (var prop in o) {
       if (!o.hasOwnProperty(prop)) continue;
       if (fields.indexOf(prop) != -1) c[p + prop] = o[prop];
-      else if (typeof o[prop] === 'object') this.myReduce(o[prop], fields, prop + '/', c);
+      else if (typeof o[prop] === 'object')
+        this.myReduce(o[prop], fields, prop + '/', c);
     }
     return c;
   }
@@ -73,13 +82,13 @@ export class homeComponent implements OnInit {
   isDetail: boolean = false;
   showDetails() {
     let id = this.userInfoService.getAuthData();
-    this.appService.viewUserDetails(id).subscribe(res => {
+    this.appService.viewUserDetails(id).subscribe((res) => {
       if (res.success) {
         this.isDetail = true;
       } else {
-        this.alert.responseAlert(res.message,'error')
+        this.alert.responseAlert(res.message, 'error');
       }
-    })
+    });
 
     // let data = this.allUsers[0];
     // var keys = Object.keys(data);
@@ -97,24 +106,23 @@ export class homeComponent implements OnInit {
     //   console.log(parts[0]);
     // }
 
-
     // console.log('key val ' + keyVal)
 
-
-    console.log('showd details')
+    console.log('showd details');
   }
 
   userSelect = [];
   deliveryIds = [];
   selectedAll: boolean = false;
   getUserSelect(ev) {
-    let contact = this.allUsers.find(data => data.contact == ev.target.value).contact;
-    console.log('contact' + contact)
+    let contact = this.allUsers.find(
+      (data) => data.contact == ev.target.value
+    ).contact;
+    console.log('contact' + contact);
     if (ev.target.checked == true) {
       // this.deliveryIds.push(ev.target.value);
       this.userSelect.push(contact);
-    }
-    else {
+    } else {
       for (let i = 0; i < this.userSelect.length; i++) {
         if (this.userSelect[i] == contact) {
           this.userSelect.splice(i, 1);
@@ -128,8 +136,6 @@ export class homeComponent implements OnInit {
     }
   }
 
-
-
   selectedAllApply() {
     if (this.selectedAll) {
       // this.allStatus = false;
@@ -139,7 +145,6 @@ export class homeComponent implements OnInit {
       this.deSelectAll();
     }
   }
-
 
   allStatus = false;
   selectAll() {
@@ -200,26 +205,24 @@ export class homeComponent implements OnInit {
     this.getUserSelect(e);
   }
 
-
   //get review contact no
   getReviewContact(user) {
     var keys = Object.keys(user);
-    const key = 'phone_0'
+    const key = 'phone_0';
     const result = this.startsWith(keys, key);
-    let index = keys.findIndex(data => data == result);
+    let index = keys.findIndex((data) => data == result);
     let keyVal = Object.values(user)[index];
-    let value = keyVal.toString()
+    let value = keyVal.toString();
     const content = value.split(';');
     return content[0];
-
   }
 
   startsWith(array, key) {
     const matcher = new RegExp(`^${key}`, 'g');
-    return array.filter(word => word.match(matcher));
+    return array.filter((word) => word.match(matcher));
   }
 
   sendSms(data) {
-    this.router.navigate(['/home/sms', data.contact])
+    this.router.navigate(['/home/sms', data.contact]);
   }
 }

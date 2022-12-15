@@ -43,7 +43,7 @@
       </div>
       <div class="right_Side" *ngIf="account">
         <div class="box">
-          <h4><b>Current Balance:</b><span>{{account?.balance | currency }}</span></h4>
+          <h4><b>Current Balance: </b><span>{{account?.balance}} credits.</span></h4>
           <div class="btns">
             <form #form method="POST" action="https://btcpay.prefex.cc/apps/Tz5ArEWtWYMkQb5umw6P4ZoF8gS/pos">
               <input type="hidden" name="amount" value="0.1" />

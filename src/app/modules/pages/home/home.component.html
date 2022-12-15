@@ -37,9 +37,9 @@
 
       <button *ngIf="isData" mat-raised-button class="primarybtn" type="button" (click)="showDetails()">Show
         Details</button><br>
-      <small *ngIf="isData">Charges for more user details are $0.01</small>
+      <small *ngIf="isData">Charges for more user details are {{cost}} credits.</small>
 
-      <div class="example-container mat-elevation-z8" tabindex="0" *ngIf="isData">
+      <div class="example-container mat-elevation-z8" tabindex="0" *ngIf="isData" style="margin-top:10px;">
         <table [cellSpacing]="0" *ngIf="isData">
           <thead>
             <tr>
@@ -65,8 +65,8 @@
 
       </div>
     </div>
-    <div class="detail_reviews" *ngIf="isDetail">
 
+    <div class="detail_reviews" *ngIf="isDetail">
       <mat-card>
         <mat-card-content>
           <div class="p_data">
