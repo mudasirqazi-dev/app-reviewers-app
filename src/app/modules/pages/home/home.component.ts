@@ -27,6 +27,7 @@ export class homeComponent implements OnInit {
   page: number = 1;
 
   cost: number = 0.1;
+  totalCost: number = 0;
   displayedColumns = ['username'];
   dataSource = ELEMENT_DATA;
   isData: boolean = false;
@@ -50,12 +51,14 @@ export class homeComponent implements OnInit {
   }
 
   searchAppReviews() {
+    this.isDetail = false;
     let userId = this.userInfoService.getAuthData();
     this.appService
       .searchAppReviews(userId, this.searchText)
       .subscribe((res) => {
         this.dataSource = res;
         this.allUsers = res;
+        this.totalCost = res.length * this.cost;
         if (res.length > 0) {
           this.isData = true;
         }
@@ -82,7 +85,7 @@ export class homeComponent implements OnInit {
   isDetail: boolean = false;
   showDetails() {
     let id = this.userInfoService.getAuthData();
-    this.appService.viewUserDetails(id).subscribe((res) => {
+    this.appService.viewUserDetails(id, this.totalCost).subscribe((res) => {
       if (res.success) {
         this.isDetail = true;
       } else {
