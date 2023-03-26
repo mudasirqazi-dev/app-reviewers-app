@@ -90,6 +90,7 @@ function Table({ columns, rows, size = "small" }) {
 		setPage(0);
 	};
 
+	
 	return (
 		<TableContainer>
 			<MdTable size={size}>
