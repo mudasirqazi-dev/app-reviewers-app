@@ -1,6 +1,7 @@
 import axios from "axios";
 import constants from "../utils/constants";
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default class {
   static search = async (token, obj) => {
     let result = { data: null, error: null };
