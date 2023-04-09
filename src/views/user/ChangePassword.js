@@ -3,7 +3,7 @@ import userService from "../../services/user";
 import useStore from "../../store/store";
 import { Button, Password, Error, Success, Heading } from "../../controls";
 import { Key } from "@mui/icons-material";
-import { Container } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 
 function ChangePassword() {
 	const { token, setIsLoading } = useStore(state => state);
@@ -48,32 +48,46 @@ function ChangePassword() {
 	};
 
 	return (
-		<Container maxWidth="sm">
-			<Heading text="Update your password" sx={{ mt: 2, mb: 3 }} />
-			<Password
-				label="Current Password"
-				value={currentPassword}
-				onChange={setCurrentPassword}
-			/>
-			<Password
-				label="New Password"
-				value={newPassword}
-				onChange={setNewPassword}
-			/>
-			<Password
-				label="Repeat Password"
-				value={repeatPassword}
-				onChange={setRepeatPassword}
-			/>
-			<Button
-				text="Update Password"
-				onClick={handleSubmit}
-				sx={{ mt: 2, mb: 2 }}
-				icon={<Key />}
-			/>
-			<Error text={errorMessage} />
-			<Success text={successMessage} />
-		</Container>
+		<Grid container spacing={2}>
+			<Grid item xs={12} md={12}>
+				<Typography variant="h5" sx={{ float: "left" }}>
+					Change password
+				</Typography>
+			</Grid>
+			<Grid item xs={12} md={12}>
+				<Password
+					label="Current Password"
+					value={currentPassword}
+					onChange={setCurrentPassword}
+				/>
+			</Grid>
+			<Grid item xs={12} md={12}>
+				<Password
+					label="New Password"
+					value={newPassword}
+					onChange={setNewPassword}
+				/>
+			</Grid>
+			<Grid item xs={12} md={12}>
+				<Password
+					label="Repeat Password"
+					value={repeatPassword}
+					onChange={setRepeatPassword}
+				/>
+			</Grid>
+			<Grid item xs={12} md={12}>
+				<Button
+					text="Update Password"
+					onClick={handleSubmit}
+					sx={{ mt: 2, mb: 2 }}
+					icon={<Key />}
+				/>
+			</Grid>
+			<Grid item xs={12} md={12}>
+				<Error text={errorMessage} />
+				<Success text={successMessage} />
+			</Grid>
+		</Grid>
 	);
 }
 
