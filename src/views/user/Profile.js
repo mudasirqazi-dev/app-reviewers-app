@@ -165,7 +165,7 @@ function Profile(props) {
 			</Grid>
 			<Grid item xs={12} md={6}>
 				<Box component={Paper} sx={{ p: 2, mb: 2 }}>
-					<Typography variant="h6">
+					<Typography variant="p">
 						Current Balance: {user?.points || 0} credits.
 					</Typography>
 				</Box>
