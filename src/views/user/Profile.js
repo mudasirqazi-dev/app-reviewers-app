@@ -34,7 +34,7 @@ function PayButton({ user, text, value, ...rest }) {
 				<input
 					type="hidden"
 					name="notificationUrl"
-					// value={`https://c020-39-37-227-167.eu.ngrok.io/api/payments/`}
+					// value={`https://6350-39-36-108-131.ngrok-free.app/api/payments/`}
 					value={`${process.env.REACT_APP_API_URL}/payments/`}
 				/>
 				<input
@@ -192,6 +192,12 @@ function Profile(props) {
 							flexWrap: "wrap"
 						}}
 					>
+						{/* <PayButton
+							key={0.1}
+							text={`Purchase with ${0.1}`}
+							value={0.1}
+							user={user}
+						/> */}
 						{buttons.map(amount => {
 							return (
 								<PayButton
