@@ -9,7 +9,6 @@ import ForgetPassword from "./views/auth/ForgetPassword";
 import ResetPassword from "./views/auth/ResetPassword";
 import Activate from "./views/auth/Activate";
 import Profile from "./views/user/Profile";
-import ChangePassword from "./views/user/ChangePassword";
 import Header from "./components/Header";
 import ToastError from "./components/ToastError";
 import ToastSuccess from "./components/ToastSuccess";

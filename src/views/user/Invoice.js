@@ -309,7 +309,10 @@ function Invoice() {
                             {moment(row?.date).format("DD MMM YYYY")}
                           </TableCell>
                           <TableCell component="td" scope="row" align="right">
-                            {Utils.formatToCurrency(row?.amount, "$")}
+                            {Utils.formatToCurrency(
+                              Object.values(row?.amount)[0],
+                              "$"
+                            )}
                           </TableCell>
                           <TableCell component="td" scope="row" align="right">
                             {row?.btc}
