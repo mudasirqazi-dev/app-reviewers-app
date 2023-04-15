@@ -34,7 +34,7 @@ function PayButton({ user, text, value, ...rest }) {
         <input
           type="hidden"
           name="notificationUrl"
-          // value={`https://c020-39-37-227-167.eu.ngrok.io/api/payments/`}
+          // value={`https://6350-39-36-108-131.ngrok-free.app/api/payments/`}
           value={`${process.env.REACT_APP_API_URL}/payments/`}
         />
         <input
@@ -50,6 +50,7 @@ function PayButton({ user, text, value, ...rest }) {
 
 function Profile(props) {
   let [buttons, setButtons] = useState([]);
+  let [subAmount, setSubAmount] = useState("");
 
   const navigate = useNavigate();
 
@@ -86,6 +87,7 @@ function Profile(props) {
       if (r.data) {
         let btns = r.data.buttons.split(";");
         setButtons(btns);
+        setSubAmount(r.data.subscription);
         setIsLoading(false);
       }
     });
@@ -150,7 +152,7 @@ function Profile(props) {
       </Grid>
       <Grid item xs={12} md={6}>
         <Box component={Paper} sx={{ p: 2, mb: 2 }}>
-          <Typography variant="h6">
+          <Typography variant="p">
             Current Balance: {user?.points || 0} credits.
           </Typography>
         </Box>
@@ -177,7 +179,12 @@ function Profile(props) {
               flexWrap: "wrap",
             }}
           >
-            {/* <PayButton text="Purchase with $0.1" value={0.1} user={user} /> */}
+            {/* <PayButton
+							key={0.1}
+							text={`Purchase with ${0.1}`}
+							value={0.1}
+							user={user}
+						/> */}
             {buttons.map((amount) => {
               return (
                 <PayButton
@@ -192,6 +199,29 @@ function Profile(props) {
               );
             })}
           </Box>
+        </Box>
+        <Box component={Paper} sx={{ p: 2 }}>
+          <Typography sx={{ mb: 1 }} variant="h6">
+            Monthly subscription
+          </Typography>
+          <Typography
+            sx={{ mb: 2 }}
+            variant="small"
+            component="small"
+            color="gray"
+          >
+            With monthly subscription you'll be purchasing credits for{" "}
+            {Utils.formatToCurrency(subAmount, "$")} every month and get a lot
+            of extra benefits and free searches.
+          </Typography>
+          <Button
+            text={`Monthly subscription for ${Utils.formatToCurrency(
+              subAmount,
+              "$"
+            )}`}
+            sx={{ mt: 1 }}
+            color="info"
+          />
         </Box>
       </Grid>
     </Grid>

@@ -7,6 +7,7 @@ import Success from "./Success";
 import Heading from "./Heading";
 import LinkButton from "./LinkButton";
 import Table from "./Table";
+import DateRangePicker from "./DateRangePicker";
 
 export {
 	Button,
@@ -17,5 +18,6 @@ export {
 	Error,
 	Heading,
 	LinkButton,
-	Table
+	Table,
+	DateRangePicker
 };
