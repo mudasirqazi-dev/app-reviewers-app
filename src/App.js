@@ -1,6 +1,8 @@
 import "./assets/css/style.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Search from "./views/search/Search";
 import Home from "./views/home/Home";
+import History from "./views/history/History";
 import useStore from "./store/store";
 import Loading from "./components/Loading";
 import Signup from "./views/auth/Signup";
@@ -53,6 +55,8 @@ function App() {
         <Route exact path="/rp" element={<ResetPassword />} />
         <Route exact path="/activate" element={<Activate />} />
         <Route exact path="/" element={<Home />} />
+        <Route exact path="/history" element={<History />} />
+        <Route exact path="/search" element={<Search />} />
         <Route exact path="/profile" element={<Profile />} />
         <Route exact path="/settings" element={<Manage />} />
       </Routes>

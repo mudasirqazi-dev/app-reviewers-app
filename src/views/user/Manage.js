@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { Grid, Typography, Tabs, Tab, Box } from "@mui/material";
 import ChangePassword from "./ChangePassword";
 import Invoices from "./Invoices";
-import Subscriptions from "./Subscriptions";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -69,16 +68,12 @@ function Manage() {
             }}
           >
             <Tab label="Invoices" {...a11yProps(0)} />
-            <Tab label="Subscriptions" {...a11yProps(1)} />
-            <Tab label="Change Password" {...a11yProps(2)} />
+            <Tab label="Change Password" {...a11yProps(1)} />
           </Tabs>
           <TabPanel value={value} index={0}>
             <Invoices />
           </TabPanel>
           <TabPanel value={value} index={1}>
-            <Subscriptions />
-          </TabPanel>
-          <TabPanel value={value} index={2}>
             <ChangePassword />
           </TabPanel>
         </Box>

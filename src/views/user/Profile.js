@@ -87,7 +87,6 @@ function Profile(props) {
       if (r.data) {
         let btns = r.data.buttons.split(";");
         setButtons(btns);
-        setSubAmount(r.data.subscription);
         setIsLoading(false);
       }
     });
@@ -199,29 +198,6 @@ function Profile(props) {
               );
             })}
           </Box>
-        </Box>
-        <Box component={Paper} sx={{ p: 2 }}>
-          <Typography sx={{ mb: 1 }} variant="h6">
-            Monthly subscription
-          </Typography>
-          <Typography
-            sx={{ mb: 2 }}
-            variant="small"
-            component="small"
-            color="gray"
-          >
-            With monthly subscription you'll be purchasing credits for{" "}
-            {Utils.formatToCurrency(subAmount, "$")} every month and get a lot
-            of extra benefits and free searches.
-          </Typography>
-          <Button
-            text={`Monthly subscription for ${Utils.formatToCurrency(
-              subAmount,
-              "$"
-            )}`}
-            sx={{ mt: 1 }}
-            color="info"
-          />
         </Box>
       </Grid>
     </Grid>
