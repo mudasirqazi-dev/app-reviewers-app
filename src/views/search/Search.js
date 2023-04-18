@@ -15,6 +15,7 @@ import {
 	TableFooter,
 	TablePagination,
 	IconButton,
+	Checkbox,
 	Modal
 } from "@mui/material";
 import {
@@ -113,6 +114,7 @@ function Home() {
 	const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
 	const [list, setList] = useState([]);
 	const [list1, setList1] = useState([]);
+	const [history, setHistory] = useState([]);
 	const [totalCost, setTotalCost] = useState(23);
 	const [isDone, setIsDone] = useState(false);
 
@@ -146,6 +148,7 @@ function Home() {
 		setMessage("");
 		setOpen(false);
 	};
+	const [checkedRows, setCheckedRows] = useState([]);
 
 	useEffect(() => {
 		if (!isLoggedIn) navigate("/login");
@@ -180,10 +183,14 @@ function Home() {
 					return;
 				}
 
-				setList(result.data);
-				setTotalCost(
-					parseFloat(settings?.cost * result.data?.length).toFixed(2)
+				setList(result.data.list);
+				let t = [];
+				result.data.history.forEach(h =>
+					h.results.forEach(k => t.push(k))
 				);
+				setList1(t);
+				setHistory(t);
+				setCheckedRows([]);
 				setIsLoading(false);
 				setIsDone(true);
 			});
@@ -200,9 +207,13 @@ function Home() {
 		}
 
 		setList1([]);
+		setHistory([]);
 		setIsLoading(true);
 		appService
-			.getDetails(token, { keyword, totalCost, userName: user.name })
+			.getDetails(token, {
+				keyword,
+				selectedUsers: checkedRows
+			})
 			.then(result => {
 				if (result.error) {
 					setErrorMessage(result.error);
@@ -257,6 +268,20 @@ function Home() {
 			});
 	};
 
+	const handleCheck = (event, row) => {
+		const checked = event.target.checked;
+		const newCheckedRows = checked
+			? [...checkedRows, row]
+			: checkedRows.filter(r => r !== row);
+		setCheckedRows(newCheckedRows);
+	};
+
+	useEffect(() => {
+		setTotalCost(
+			parseFloat(settings?.cost * checkedRows?.length).toFixed(2)
+		);
+	}, [checkedRows]);
+
 	return (
 		<>
 			<Confirm
@@ -270,7 +295,14 @@ function Home() {
 				body={
 					<Typography>
 						Charges for more user details are {settings?.cost}{" "}
-						credits per record. This search has found {list?.length}{" "}
+						credits per record. You have selected{" "}
+						<Typography
+							color="primary"
+							variant="span"
+							sx={{ fontWeight: "bold" }}
+						>
+							{checkedRows?.length}
+						</Typography>{" "}
 						records and it will cost{" "}
 						<Typography
 							color="primary"
@@ -283,6 +315,21 @@ function Home() {
 						<br />
 						This action is not revertable.
 					</Typography>
+					// <Typography>
+					// 	Charges for more user details are {settings?.cost}{" "}
+					// 	credits per record. This search has found {list?.length}{" "}
+					// 	records and it will cost{" "}
+					// 	<Typography
+					// 		color="primary"
+					// 		variant="span"
+					// 		sx={{ fontWeight: "bold" }}
+					// 	>
+					// 		{totalCost}
+					// 	</Typography>{" "}
+					// 	credits. Do you want to proceed?
+					// 	<br />
+					// 	This action is not revertable.
+					// </Typography>
 				}
 			/>
 			<Modal
@@ -364,7 +411,7 @@ function Home() {
 						/>
 						{isDone && list.length > 0 && (
 							<>
-								<Typography sx={{ mt: 3, mb: 1 }}>
+								{/* <Typography sx={{ mt: 3, mb: 1 }}>
 									Charges for more user details are{" "}
 									{settings?.cost} credits per record. This
 									search has found {list?.length} records and
@@ -377,6 +424,33 @@ function Home() {
 										{totalCost}
 									</Typography>{" "}
 									credits. Do you want to proceed?
+								</Typography> */}
+								<Typography sx={{ mt: 3, mb: 1 }}>
+									Charges for more user details are{" "}
+									{settings?.cost} credits per record.{" "}
+									{checkedRows.length > 0 ? (
+										<>
+											You have selected{" "}
+											<Typography
+												color="primary"
+												variant="span"
+												sx={{ fontWeight: "bold" }}
+											>
+												{checkedRows?.length}
+											</Typography>{" "}
+											records and it will cost{" "}
+											<Typography
+												color="primary"
+												variant="span"
+												sx={{ fontWeight: "bold" }}
+											>
+												{totalCost}
+											</Typography>{" "}
+											credits. Do you want to proceed?
+										</>
+									) : (
+										"Select the records you want to get details of."
+									)}
 								</Typography>
 								<Button
 									text="Yes! Get Details"
@@ -393,9 +467,42 @@ function Home() {
 													scope="row"
 													align="left"
 												>
+													<Checkbox
+														color="primary"
+														checked={
+															checkedRows.length ===
+															list.length
+														}
+														indeterminate={
+															checkedRows.length >
+																0 &&
+															checkedRows.length <
+																list.length
+														}
+														onChange={event => {
+															const checked =
+																event.target
+																	.checked;
+															const newCheckedRows =
+																checked
+																	? list
+																	: [];
+															setCheckedRows(
+																newCheckedRows
+															);
+														}}
+													/>
 													Username ({list.length}{" "}
 													records)
 												</TableCell>
+												{/* <TableCell
+													component="th"
+													scope="row"
+													align="left"
+												>
+													Username ({list.length}{" "}
+													records)
+												</TableCell> */}
 											</TableRow>
 										</TableHead>
 										<TableBody>
@@ -406,8 +513,9 @@ function Home() {
 															rowsPerPage
 												  )
 												: list
-											).map(row => (
+											).map((row, idx) => (
 												<TableRow
+													key={idx}
 													sx={{
 														"&:last-child td, &:last-child th":
 															{
@@ -420,8 +528,28 @@ function Home() {
 														scope="row"
 														align="left"
 													>
-														{row?.username}
+														<Checkbox
+															color="primary"
+															checked={checkedRows.includes(
+																row
+															)}
+															onChange={event =>
+																handleCheck(
+																	event,
+																	row
+																)
+															}
+														/>
+														{row?.username} (
+														{row?.app})
 													</TableCell>
+													{/* <TableCell
+														component="td"
+														scope="row"
+														align="left"
+													>
+														{row?.username}
+													</TableCell> */}
 												</TableRow>
 											))}
 											{emptyRows > 0 && (
@@ -485,7 +613,9 @@ function Home() {
 						<>
 							<Box component={Paper} sx={{ p: 2 }}>
 								<Typography variant="h5" sx={{ mb: 2 }}>
-									Detailed search results
+									{history?.length > 0
+										? "Records you already own"
+										: "Detailed search results"}
 								</Typography>
 								<TableContainer>
 									<Table size="small">
@@ -529,8 +659,9 @@ function Home() {
 															rowsPerPage1
 												  )
 												: list1
-											).map(row => (
+											).map((row, idx) => (
 												<TableRow
+													key={idx}
 													sx={{
 														"&:last-child td, &:last-child th":
 															{
