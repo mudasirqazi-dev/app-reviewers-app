@@ -40,7 +40,7 @@ function PayButton({ user, text, value, ...rest }) {
 				<input
 					type="hidden"
 					name="redirectUrl"
-					value={`${process.env.REACT_APP_URL}/profile`}
+					value={`${process.env.PUBLIC_URL}/profile`}
 				/>
 				<Button text={text} type="submit" {...rest} />
 			</form>
