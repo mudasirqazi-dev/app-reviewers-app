@@ -18,7 +18,8 @@ import {
 	TableFooter,
 	TablePagination,
 	Modal,
-	IconButton
+	IconButton,
+	Chip
 } from "@mui/material";
 import {
 	LastPage as LastPageIcon,
@@ -34,6 +35,8 @@ import { Text, Button } from "../../controls";
 import DateRangePicker from "../../controls/DateRangePicker";
 import { useTheme } from "@mui/material/styles";
 import Utils from "../../utils/utils";
+import Constants from "../../utils/constants";
+import Select from "react-select";
 
 function TablePaginationActions(props) {
 	const theme = useTheme();
@@ -138,11 +141,13 @@ function History() {
 		setPage1(0);
 	};
 
-	const [name, setName] = useState(null);
+	const [selectedPhoneNumbersForSms, setSelectedPhoneNumbersForSms] =
+		useState([]);
 	const [message, setMessage] = useState(null);
 	const [open, setOpen] = useState(false);
 	const handleClose = () => {
 		setSelectedUser(null);
+		setSelectedPhoneNumbersForSms([]);
 		setMessage("");
 		setOpen(false);
 	};
@@ -154,10 +159,6 @@ function History() {
 	useEffect(() => {
 		reload();
 	}, [keyword, arr]);
-
-	useEffect(() => {
-		setName(selectedUser?.username || "");
-	}, [selectedUser]);
 
 	const reload = () => {
 		if (!keyword) setIsLoading(true);
@@ -184,14 +185,14 @@ function History() {
 	};
 
 	const handleSend = () => {
-		if (!token || !selectedUser) return;
+		if (!token || !selectedUser || selectedPhoneNumbersForSms.length === 0)
+			return;
 		if (!message || message?.length === 0) return;
 
 		setIsLoading(true);
 		smsService
 			.sendSms(token, {
-				phone: selectedUser.phone,
-				username: selectedUser.username,
+				numbers: selectedPhoneNumbersForSms.map(k => k.value),
 				message
 			})
 			.then(result => {
@@ -231,15 +232,34 @@ function History() {
 						id="modal-modal-title"
 						variant="h6"
 						component="h2"
+						sx={{ mb: 2 }}
 					>
 						Send SMS
 					</Typography>
-					<Text
-						value={selectedUser?.phone}
-						disabled={true}
-						label="Phone"
+					<Select
+						value={selectedPhoneNumbersForSms}
+						onChange={setSelectedPhoneNumbersForSms}
+						isMulti={true}
+						styles={{
+							control: base => ({
+								...base,
+								height: 55
+							}),
+							option: (
+								base,
+								{ data, isDisabled, isFocused, isSelected }
+							) => base,
+							input: base => base,
+							placeholder: base => base,
+							singleValue: (base, { data }) => base,
+							menuPortal: base => base,
+							menu: base => ({ ...base, zIndex: 9 })
+						}}
+						options={selectedUser?.contacts?.map(k => ({
+							label: `${k.firstname} ${k.surname} (${k.phone})`,
+							value: k
+						}))}
 					/>
-					<Text value={name} onChange={setName} label="Name" />
 					<Text
 						value={message}
 						onChange={setMessage}
@@ -355,7 +375,19 @@ function History() {
 													scope="row"
 													align="left"
 												>
-													{row?.keyword}
+													{row?.keyword
+														?.split(";")
+														.map((k, idx) => (
+															<Chip
+																label={k}
+																key={idx}
+																size="small"
+																sx={{
+																	marginRight:
+																		"2px"
+																}}
+															/>
+														))}
 												</TableCell>
 												<TableCell
 													component="td"
@@ -535,7 +567,8 @@ function History() {
 														scope="row"
 														align="left"
 													>
-														{row?.username}
+														{row?.username} (
+														{row?.contacts?.length})
 													</TableCell>
 													<TableCell
 														component="td"
@@ -547,9 +580,36 @@ function History() {
 													<TableCell
 														component="td"
 														scope="row"
-														align="center"
+														align="left"
 													>
-														{row?.phone}
+														{row?.contacts?.map(
+															k => (
+																<div>
+																	<span
+																		style={{
+																			fontSize: 11
+																		}}
+																	>
+																		{
+																			k.firstname
+																		}{" "}
+																		{
+																			k.surname
+																		}
+																	</span>{" "}
+																	<span
+																		style={{
+																			color: Constants.PRIMARY,
+																			fontSize: 12
+																		}}
+																	>
+																		{
+																			k.phone
+																		}
+																	</span>
+																</div>
+															)
+														)}
 													</TableCell>
 													<TableCell
 														component="td"

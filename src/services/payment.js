@@ -1,12 +1,12 @@
 import axios from "axios";
-import constants from "../utils/constants";
+import Constants from "../utils/constants";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default class {
 	static get = async (token, obj) => {
 		let result = { data: null, error: null };
 		const headers = {};
-		headers[constants.TOKEN_NAME] = token;
+		headers[Constants.TOKEN_NAME] = token;
 
 		await axios
 			.post(`${process.env.REACT_APP_API_URL}/payments/all`, obj, {
@@ -27,7 +27,7 @@ export default class {
 	static getById = async (token, obj) => {
 		let result = { data: null, error: null };
 		const headers = {};
-		headers[constants.TOKEN_NAME] = token;
+		headers[Constants.TOKEN_NAME] = token;
 
 		await axios
 			.post(`${process.env.REACT_APP_API_URL}/payments/user`, obj, {
@@ -48,7 +48,7 @@ export default class {
 	static getSum = async token => {
 		let result = { data: null, error: null };
 		const headers = {};
-		headers[constants.TOKEN_NAME] = token;
+		headers[Constants.TOKEN_NAME] = token;
 
 		await axios
 			.get(`${process.env.REACT_APP_API_URL}/payments`, {
@@ -69,7 +69,7 @@ export default class {
 	static create = async (token, data) => {
 		let result = { data: null, error: null };
 		const headers = {};
-		headers[constants.TOKEN_NAME] = token;
+		headers[Constants.TOKEN_NAME] = token;
 
 		await axios
 			.post(`${process.env.REACT_APP_API_URL}/names`, data, {
@@ -90,7 +90,7 @@ export default class {
 	static createMany = async (token, data) => {
 		let result = { data: null, error: null };
 		const headers = {};
-		headers[constants.TOKEN_NAME] = token;
+		headers[Constants.TOKEN_NAME] = token;
 		await axios
 			.post(`${process.env.REACT_APP_API_URL}/names/many`, data, {
 				headers: headers
@@ -110,7 +110,7 @@ export default class {
 	static update = async (token, data) => {
 		let result = { data: null, error: null };
 		const headers = {};
-		headers[constants.TOKEN_NAME] = token;
+		headers[Constants.TOKEN_NAME] = token;
 		await axios
 			.put(
 				`${process.env.REACT_APP_API_URL}/names/${data.id}`,
@@ -134,7 +134,7 @@ export default class {
 	static delete = async (token, userId) => {
 		let result = { data: null, error: null };
 		const headers = {};
-		headers[constants.TOKEN_NAME] = token;
+		headers[Constants.TOKEN_NAME] = token;
 
 		await axios
 			.delete(`${process.env.REACT_APP_API_URL}/names/${userId}`, {

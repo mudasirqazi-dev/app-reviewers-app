@@ -1,12 +1,12 @@
 import axios from "axios";
-import constants from "../utils/constants";
+import Constants from "../utils/constants";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default class {
 	static get = async token => {
 		let result = { data: null, error: null };
 		const headers = {};
-		headers[constants.TOKEN_NAME] = token;
+		headers[Constants.TOKEN_NAME] = token;
 
 		await axios
 			.post(
@@ -31,7 +31,7 @@ export default class {
 	static getPayments = async (token, data) => {
 		let result = { data: null, error: null };
 		const headers = {};
-		headers[constants.TOKEN_NAME] = token;
+		headers[Constants.TOKEN_NAME] = token;
 
 		await axios
 			.post(
@@ -56,7 +56,7 @@ export default class {
 	static getUserSearches = async (token, data) => {
 		let result = { data: null, error: null };
 		const headers = {};
-		headers[constants.TOKEN_NAME] = token;
+		headers[Constants.TOKEN_NAME] = token;
 
 		await axios
 			.post(

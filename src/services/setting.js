@@ -1,11 +1,11 @@
 import axios from "axios";
-import constants from "../utils/constants";
+import Constants from "../utils/constants";
 
 export default class {
 	static get = async token => {
 		let result = { data: null, error: null };
 		const headers = {};
-		headers[constants.TOKEN_NAME] = token;
+		headers[Constants.TOKEN_NAME] = token;
 
 		await axios
 			.get(`${process.env.REACT_APP_API_URL}/settings`, {
@@ -26,7 +26,7 @@ export default class {
 	static update = async (token, data) => {
 		let result = { data: null, error: null };
 		const headers = {};
-		headers[constants.TOKEN_NAME] = token;
+		headers[Constants.TOKEN_NAME] = token;
 
 		await axios
 			.post(`${process.env.REACT_APP_API_URL}/settings`, data, {
