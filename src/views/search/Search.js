@@ -371,7 +371,8 @@ function Home() {
 						styles={{
 							control: base => ({
 								...base,
-								height: 55
+								minHeight: 55,
+								height: "auto"
 							}),
 							option: (
 								base,
