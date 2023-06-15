@@ -225,7 +225,9 @@ function History() {
 						width: 500,
 						bgcolor: "background.paper",
 						boxShadow: 24,
-						p: 4
+						p: 4,
+						maxHeight: 550,
+						overflow: "auto"
 					}}
 				>
 					<Typography
