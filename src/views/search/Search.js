@@ -188,7 +188,7 @@ function Home() {
 		setIsLoading(true);
 		setIsDone(false);
 		appService
-			.search(token, { keyword, userName: user.name })
+			.search(token, { keyword, userName: user.name, addSearchRecord: true  })
 			.then(result => {
 				if (result.error) {
 					setErrorMessage(result.error);
@@ -196,12 +196,14 @@ function Home() {
 					return;
 				}
 
-				setList(result.data.list);
+				let list = result.data.list;
 				let t = [];
 				result.data.history.forEach(h =>
 					h.results.forEach(k => t.push(k))
 				);
 				setList1(t);
+				list = list.filter(k => t.findIndex(l => l?.username?.toLowerCase() === k.username?.toLowerCase()) === -1);
+				setList(list);
 				setHistory(t);
 				setCheckedRows([]);
 				setIsLoading(false);
@@ -230,7 +232,30 @@ function Home() {
 				setInfoMessage(
 					`${totalCost} points are deducted from your credit balance.`
 				);
-				setList1(result.data);
+				
+				appService
+					.search(token, { keyword, userName: user.name, addSearchRecord: false })
+					.then(result => {
+						if (result.error) {
+							setErrorMessage(result.error);
+							setIsLoading(false);
+							return;
+						}
+
+						let list = result.data.list;
+						let t = [];
+						result.data.history.forEach(h =>
+							h.results.forEach(k => t.push(k))
+						);
+						setList1(t);
+						list = list.filter(k => t.findIndex(l => l?.username?.toLowerCase() === k.username?.toLowerCase()) === -1);
+						setList(list);
+						setHistory(t);
+						setCheckedRows([]);
+						setIsLoading(false);
+						setIsDone(true);
+					});
+
 				userService.reload(token).then(r => {
 					if (r.error) {
 						setErrorMessage(r.error);
@@ -300,6 +325,12 @@ function Home() {
 				setUser(r.data);
 			});
 	};
+
+	const handleSelectAll = (event) => {
+		const checked = event.target.checked;
+		const newCheckedRows = checked ? list : [];
+		setCheckedRows(newCheckedRows);
+  };
 
 	return (
 		<>
@@ -505,18 +536,7 @@ function Home() {
 															checkedRows.length <
 																list.length
 														}
-														onChange={event => {
-															const checked =
-																event.target
-																	.checked;
-															const newCheckedRows =
-																checked
-																	? list
-																	: [];
-															setCheckedRows(
-																newCheckedRows
-															);
-														}}
+														onChange={handleSelectAll}
 													/>
 													Username ({list.length}{" "}
 													records)
@@ -578,6 +598,7 @@ function Home() {
 																	row
 																)
 															}
+															disabled={list1.findIndex(k => k?.username?.toLowerCase() === row?.username?.toLowerCase()) !== -1}
 														/>
 														<span>
 															{row?.username}{" "}
