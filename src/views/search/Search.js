@@ -774,8 +774,8 @@ function Home() {
 														scope="row"
 														align="left"
 													>
-														{row?.username} (
-														{row?.contacts?.length})
+														{row?.username} {row?.contacts?.length > 1 && <>(
+														{row?.contacts?.length})</>}
 													</TableCell>
 													<TableCell
 														component="td"
