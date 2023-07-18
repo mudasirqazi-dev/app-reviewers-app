@@ -106,6 +106,8 @@ function Home() {
     setSuccessMessage,
     setErrorMessage,
     setInfoMessage,
+    researchKeywords,
+    setResearchKeywords,
   } = useStore((state) => state);
   const [settings, setSettings] = useState(null);
   const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
@@ -337,6 +339,47 @@ function Home() {
     const newCheckedRows = checked ? list : [];
     setCheckedRows(newCheckedRows);
   };
+
+  useEffect(() => {
+    if (researchKeywords) {
+      setList([]);
+      setList1([]);
+      setIsLoading(true);
+      setIsDone(false);
+      appService
+        .search(token, {
+          keyword: researchKeywords.split(";"),
+          userName: user.name,
+          addSearchRecord: true,
+        })
+        .then((result) => {
+          if (result.error) {
+            setErrorMessage(result.error);
+            setIsLoading(false);
+            return;
+          }
+
+          let list = result.data.list;
+          let t = [];
+          result.data.history.forEach((h) =>
+            h.results.forEach((k) => t.push(k))
+          );
+          setList1(t);
+          list = list.filter(
+            (k) =>
+              t.findIndex(
+                (l) => l?.username?.toLowerCase() === k.username?.toLowerCase()
+              ) === -1
+          );
+          setList(list);
+          setHistory(t);
+          setCheckedRows([]);
+          setIsLoading(false);
+          setIsDone(true);
+          setResearchKeywords("");
+        });
+    }
+  }, [researchKeywords]);
 
   return (
     <>
